@@ -47,9 +47,7 @@ public class Cube : MonoBehaviour
         cubeFaceOrder.Add(cubeFace5);
         cubeFaceOrder.Add(cubeFace6);
 
-        Debug.Log(tmpro.transform.rotation);
-        Debug.Log(tmpro.transform.localRotation);
-        Debug.Log(tmpro.transform.localEulerAngles);
+        topFace = tmpro.transform.rotation;
 
         /*
         Debug.Log("Initial Order:");
@@ -58,13 +56,11 @@ public class Cube : MonoBehaviour
             Debug.Log(cube.name);
         }
         */
-
-        Debug.Log(transform.localPosition);
     }
 
     void LateUpdate()
     {
-        
+        if (isRotating && (rotationDirection == RotationDirection.Right) || rotationDirection == RotationDirection.Left) tmpro.transform.rotation = topFace;
     }
 
     private void OnMouseEnter()
@@ -85,7 +81,6 @@ public class Cube : MonoBehaviour
             Debug.Log(mouseDownPos);
             CalculateRotationDirection();
             if (!isRotating) RotateCube();
-            rotationDirection = RotationDirection.Null;
         }
     }
 
@@ -110,8 +105,6 @@ public class Cube : MonoBehaviour
             if (directionVector.y > 0) rotationDirection = RotationDirection.Up;
             else rotationDirection = RotationDirection.Down;
         }
-
-        Debug.Log(rotationDirection);
     }
 
     private void RotateCube()
@@ -170,10 +163,6 @@ public class Cube : MonoBehaviour
                 break;
         }
 
-        Debug.Log(tmpro.transform.rotation);
-        Debug.Log(tmpro.transform.localRotation);
-        Debug.Log(tmpro.transform.localEulerAngles);
-
         /*
         Debug.Log("New Order:");
         foreach (GameObject cube in cubeFaceOrder)
@@ -188,5 +177,6 @@ public class Cube : MonoBehaviour
         yield return new WaitForSeconds(rotationDuration);
 
         isRotating = false;
+        rotationDirection = RotationDirection.Null;
     }
 }
