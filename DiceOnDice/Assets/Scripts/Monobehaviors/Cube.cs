@@ -141,11 +141,21 @@ public class Cube : MonoBehaviour
             case RotationDirection.Up:
                 if (onRightSide)
                 {
-                    currentRotation = transform.localEulerAngles;
-                    newRotation = transform.localEulerAngles;
-                    newRotation.x = newRotation.x + 90f;
-                    Debug.Log(newRotation.x);
-                    transform.DOLocalRotate(newRotation, rotationDuration, RotateMode.FastBeyond360).SetEase(Ease.OutCubic);
+                    transform.DOLocalRotate(new Vector3(90f, 0f, 0f), rotationDuration, RotateMode.WorldAxisAdd).SetEase(Ease.OutCubic);
+                }
+                else
+                {
+                    transform.DOLocalRotate(new Vector3(0f, 0f, -90f), rotationDuration, RotateMode.WorldAxisAdd).SetEase(Ease.OutCubic);
+                }
+                break;
+            case RotationDirection.Down:
+                if (onRightSide)
+                {
+                    transform.DOLocalRotate(new Vector3(-90f, 0f, 0f), rotationDuration, RotateMode.WorldAxisAdd).SetEase(Ease.OutCubic);
+                }
+                else
+                {
+                    transform.DOLocalRotate(new Vector3(0f, 0f, 90f), rotationDuration, RotateMode.WorldAxisAdd).SetEase(Ease.OutCubic);
                 }
                 break;
         }
