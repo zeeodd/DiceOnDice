@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using TMPro;
 
 public class Cube : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public class Cube : MonoBehaviour
     public GameObject cubeFace5;
     public GameObject cubeFace6;
 
+    public TextMeshPro tmpro;
+
     private List<GameObject> cubeFaceOrder;
 
     private bool isBeingInteractedWith;
@@ -31,6 +34,7 @@ public class Cube : MonoBehaviour
     private Vector3 currentRotation;
     private Vector3 newRotation;
     private float rotationDuration = 0.75f;
+    private Quaternion topFace;
 
     void Start()
     {
@@ -43,14 +47,22 @@ public class Cube : MonoBehaviour
         cubeFaceOrder.Add(cubeFace5);
         cubeFaceOrder.Add(cubeFace6);
 
+        Debug.Log(tmpro.transform.rotation);
+        Debug.Log(tmpro.transform.localRotation);
+        Debug.Log(tmpro.transform.localEulerAngles);
+
+        /*
         Debug.Log("Initial Order:");
         foreach(GameObject cube in cubeFaceOrder)
         {
             Debug.Log(cube.name);
         }
+        */
+
+        Debug.Log(transform.localPosition);
     }
 
-    void Update()
+    void LateUpdate()
     {
         
     }
@@ -70,6 +82,7 @@ public class Cube : MonoBehaviour
         if (isBeingInteractedWith)
         {
             mouseUpPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Debug.Log(mouseDownPos);
             CalculateRotationDirection();
             if (!isRotating) RotateCube();
             rotationDirection = RotationDirection.Null;
@@ -128,28 +141,46 @@ public class Cube : MonoBehaviour
 
     private void UpdateFacePositions()
     {
+        GameObject previous1 = cubeFaceOrder[0];
+        GameObject previous2 = cubeFaceOrder[1];
+        GameObject previous3 = cubeFaceOrder[2];
+        GameObject previous4 = cubeFaceOrder[3];
+        GameObject previous5 = cubeFaceOrder[4];
+        GameObject previous6 = cubeFaceOrder[5];
+
         switch (rotationDirection)
         {
-            case RotationDirection.Right:
-                GameObject previous1 = cubeFaceOrder[0];
-                GameObject previous2 = cubeFaceOrder[1];
-                GameObject previous3 = cubeFaceOrder[2];
-                GameObject previous4 = cubeFaceOrder[3];
-                cubeFaceOrder[3] = previous3;
-                cubeFaceOrder[2] = previous2;
-                cubeFaceOrder[1] = previous1;
-                cubeFaceOrder[0] = previous4;
+            case RotationDirection.Right:  
+                cubeFaceOrder.Clear();
+                cubeFaceOrder.Add(previous4);
+                cubeFaceOrder.Add(previous1);
+                cubeFaceOrder.Add(previous2);
+                cubeFaceOrder.Add(previous3);
+                cubeFaceOrder.Add(previous5);
+                cubeFaceOrder.Add(previous6);
                 break;
             case RotationDirection.Left:
-                
+                cubeFaceOrder.Clear();
+                cubeFaceOrder.Add(previous2);
+                cubeFaceOrder.Add(previous3);
+                cubeFaceOrder.Add(previous4);
+                cubeFaceOrder.Add(previous1);
+                cubeFaceOrder.Add(previous5);
+                cubeFaceOrder.Add(previous6);
                 break;
         }
 
+        Debug.Log(tmpro.transform.rotation);
+        Debug.Log(tmpro.transform.localRotation);
+        Debug.Log(tmpro.transform.localEulerAngles);
+
+        /*
         Debug.Log("New Order:");
         foreach (GameObject cube in cubeFaceOrder)
         {
             Debug.Log(cube.name);
         }
+        */
     }
 
     private IEnumerator ResetRotationBool()

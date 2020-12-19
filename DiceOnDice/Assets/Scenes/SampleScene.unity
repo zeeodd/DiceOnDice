@@ -705,6 +705,7 @@ MonoBehaviour:
   cubeFace4: {fileID: 799354386}
   cubeFace5: {fileID: 1867464420}
   cubeFace6: {fileID: 1545415170}
+  tmpro: {fileID: 1084890141}
 --- !u!1 &469335154
 GameObject:
   m_ObjectHideFlags: 0
