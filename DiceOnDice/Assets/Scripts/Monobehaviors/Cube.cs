@@ -23,7 +23,7 @@ public class Cube : MonoBehaviour
     public GameObject cubeFace5;
     public GameObject cubeFace6;
 
-    public TextMeshPro tmpro;
+    public TextMeshPro topFaceText;
 
     private List<GameObject> cubeFaceOrder;
 
@@ -34,7 +34,9 @@ public class Cube : MonoBehaviour
     private Vector3 currentRotation;
     private Vector3 newRotation;
     private float rotationDuration = 0.75f;
-    private Quaternion topFace;
+    private Quaternion topFaceRotation;
+    private Quaternion botFaceRotation;
+    private bool onRightSide;
 
     void Start()
     {
@@ -47,7 +49,7 @@ public class Cube : MonoBehaviour
         cubeFaceOrder.Add(cubeFace5);
         cubeFaceOrder.Add(cubeFace6);
 
-        topFace = tmpro.transform.rotation;
+        topFaceRotation = topFaceText.transform.rotation;
 
         /*
         Debug.Log("Initial Order:");
@@ -58,9 +60,21 @@ public class Cube : MonoBehaviour
         */
     }
 
+    void Update()
+    {
+        float distanceToPlayer = Vector3.Distance(Camera.main.transform.position, transform.position);
+        Vector3 cameraPoint = Input.mousePosition;
+        cameraPoint.z = distanceToPlayer;
+        Vector3 worldPoint = Camera.main.ScreenToWorldPoint(cameraPoint);
+        if (worldPoint.x < transform.localPosition.x)
+            onRightSide = false;
+        else
+            onRightSide = true;
+    }
+
     void LateUpdate()
     {
-        if (isRotating && (rotationDirection == RotationDirection.Right) || rotationDirection == RotationDirection.Left) tmpro.transform.rotation = topFace;
+        if (isRotating && (rotationDirection == RotationDirection.Right) || rotationDirection == RotationDirection.Left) topFaceText.transform.rotation = topFaceRotation;
     }
 
     private void OnMouseEnter()
@@ -78,7 +92,6 @@ public class Cube : MonoBehaviour
         if (isBeingInteractedWith)
         {
             mouseUpPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Debug.Log(mouseDownPos);
             CalculateRotationDirection();
             if (!isRotating) RotateCube();
         }
@@ -124,6 +137,16 @@ public class Cube : MonoBehaviour
                 newRotation = transform.localEulerAngles;
                 newRotation.y = newRotation.y + 90f;
                 transform.DOLocalRotate(newRotation, rotationDuration, RotateMode.FastBeyond360).SetEase(Ease.OutCubic);
+                break;
+            case RotationDirection.Up:
+                if (onRightSide)
+                {
+                    currentRotation = transform.localEulerAngles;
+                    newRotation = transform.localEulerAngles;
+                    newRotation.x = newRotation.x + 90f;
+                    Debug.Log(newRotation.x);
+                    transform.DOLocalRotate(newRotation, rotationDuration, RotateMode.FastBeyond360).SetEase(Ease.OutCubic);
+                }
                 break;
         }
 

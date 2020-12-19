@@ -599,7 +599,7 @@ GameObject:
   - component: {fileID: 434895530}
   - component: {fileID: 434895529}
   m_Layer: 8
-  m_Name: Cube
+  m_Name: Dice
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -705,7 +705,7 @@ MonoBehaviour:
   cubeFace4: {fileID: 799354386}
   cubeFace5: {fileID: 1867464420}
   cubeFace6: {fileID: 1545415170}
-  tmpro: {fileID: 1084890141}
+  topFaceText: {fileID: 1084890141}
 --- !u!1 &469335154
 GameObject:
   m_ObjectHideFlags: 0
@@ -1843,7 +1843,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1268975776}
   m_LocalRotation: {x: 0.23911765, y: 0.3696438, z: -0.09904577, w: 0.89239913}
-  m_LocalPosition: {x: -2.31, y: 1.89, z: -2.31}
+  m_LocalPosition: {x: -2, y: 1.5, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 963194228}
