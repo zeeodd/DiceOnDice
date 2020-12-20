@@ -23,7 +23,19 @@ public class Cube : MonoBehaviour
     public GameObject cubeFace5;
     public GameObject cubeFace6;
 
-    public TextMeshPro topFaceText;
+    private Quaternion cubeFace1TextRotation;
+    private Quaternion cubeFace2TextRotation;
+    private Quaternion cubeFace3TextRotation;
+    private Quaternion cubeFace4TextRotation;
+    private Quaternion cubeFace5TextRotation;
+    private Quaternion cubeFace6TextRotation;
+
+    private TextMeshPro cubeFace1Text;
+    private TextMeshPro cubeFace2Text;
+    private TextMeshPro cubeFace3Text;
+    private TextMeshPro cubeFace4Text;
+    private TextMeshPro cubeFace5Text;
+    private TextMeshPro cubeFace6Text;
 
     private List<GameObject> cubeFaceOrder;
 
@@ -34,9 +46,8 @@ public class Cube : MonoBehaviour
     private Vector3 currentRotation;
     private Vector3 newRotation;
     private float rotationDuration = 0.75f;
-    private Quaternion topFaceRotation;
-    private Quaternion botFaceRotation;
     private bool onRightSide;
+    private bool cachedSide;
 
     void Start()
     {
@@ -49,15 +60,7 @@ public class Cube : MonoBehaviour
         cubeFaceOrder.Add(cubeFace5);
         cubeFaceOrder.Add(cubeFace6);
 
-        topFaceRotation = topFaceText.transform.rotation;
-
-        /*
-        Debug.Log("Initial Order:");
-        foreach(GameObject cube in cubeFaceOrder)
-        {
-            Debug.Log(cube.name);
-        }
-        */
+        GetCubeFaceText();
     }
 
     void Update()
@@ -74,7 +77,21 @@ public class Cube : MonoBehaviour
 
     void LateUpdate()
     {
-        if (isRotating && (rotationDirection == RotationDirection.Right) || rotationDirection == RotationDirection.Left) topFaceText.transform.rotation = topFaceRotation;
+        if (isRotating && rotationDirection == RotationDirection.Right || rotationDirection == RotationDirection.Left)
+        {
+            cubeFace5Text.transform.rotation = cubeFace5TextRotation;
+            cubeFace6Text.transform.rotation = cubeFace6TextRotation;
+        }
+        else if (isRotating && cachedSide && rotationDirection == RotationDirection.Up || rotationDirection == RotationDirection.Down)
+        {
+            cubeFace1Text.transform.rotation = cubeFace1TextRotation;
+            cubeFace3Text.transform.rotation = cubeFace3TextRotation;
+        } 
+        else if (isRotating && !cachedSide && rotationDirection == RotationDirection.Up || rotationDirection == RotationDirection.Down)
+        {
+            cubeFace2Text.transform.rotation = cubeFace2TextRotation;
+            cubeFace4Text.transform.rotation = cubeFace4TextRotation;
+        }
     }
 
     private void OnMouseEnter()
@@ -160,7 +177,12 @@ public class Cube : MonoBehaviour
                 break;
         }
 
+        if (onRightSide) cachedSide = true;
+        else cachedSide = false;
+
         UpdateFacePositions();
+
+        GetCubeFaceText();
 
         StartCoroutine(ResetRotationBool());
     }
@@ -194,15 +216,72 @@ public class Cube : MonoBehaviour
                 cubeFaceOrder.Add(previous5);
                 cubeFaceOrder.Add(previous6);
                 break;
+            case RotationDirection.Up:
+                if (onRightSide)
+                {
+                    cubeFaceOrder.Clear();
+                    cubeFaceOrder.Add(previous1);
+                    cubeFaceOrder.Add(previous6);
+                    cubeFaceOrder.Add(previous3);
+                    cubeFaceOrder.Add(previous5);
+                    cubeFaceOrder.Add(previous2);
+                    cubeFaceOrder.Add(previous4);
+                }
+                else
+                {
+                    cubeFaceOrder.Clear();
+                    cubeFaceOrder.Add(previous6);
+                    cubeFaceOrder.Add(previous2);
+                    cubeFaceOrder.Add(previous5);
+                    cubeFaceOrder.Add(previous4);
+                    cubeFaceOrder.Add(previous1);
+                    cubeFaceOrder.Add(previous3);
+                }
+                break;
+            case RotationDirection.Down:
+                if (onRightSide)
+                {
+                    cubeFaceOrder.Clear();
+                    cubeFaceOrder.Add(previous1);
+                    cubeFaceOrder.Add(previous5);
+                    cubeFaceOrder.Add(previous3);
+                    cubeFaceOrder.Add(previous6);
+                    cubeFaceOrder.Add(previous4);
+                    cubeFaceOrder.Add(previous2);
+                }
+                else
+                {
+                    cubeFaceOrder.Clear();
+                    cubeFaceOrder.Add(previous5);
+                    cubeFaceOrder.Add(previous2);
+                    cubeFaceOrder.Add(previous6);
+                    cubeFaceOrder.Add(previous4);
+                    cubeFaceOrder.Add(previous3);
+                    cubeFaceOrder.Add(previous1);
+                }
+                break;
         }
+    }
 
-        /*
-        Debug.Log("New Order:");
-        foreach (GameObject cube in cubeFaceOrder)
-        {
-            Debug.Log(cube.name);
-        }
-        */
+    private void GetCubeFaceText()
+    {
+        cubeFace1Text = cubeFaceOrder[0].GetComponentInChildren<TextMeshPro>();
+        cubeFace1TextRotation = cubeFace1Text.transform.rotation;
+
+        cubeFace2Text = cubeFaceOrder[1].GetComponentInChildren<TextMeshPro>();
+        cubeFace2TextRotation = cubeFace2Text.transform.rotation;
+
+        cubeFace3Text = cubeFaceOrder[2].GetComponentInChildren<TextMeshPro>();
+        cubeFace3TextRotation = cubeFace3Text.transform.rotation;
+
+        cubeFace4Text = cubeFaceOrder[3].GetComponentInChildren<TextMeshPro>();
+        cubeFace4TextRotation = cubeFace4Text.transform.rotation;
+
+        cubeFace5Text = cubeFaceOrder[4].GetComponentInChildren<TextMeshPro>();
+        cubeFace5TextRotation = cubeFace5Text.transform.rotation;
+
+        cubeFace6Text = cubeFaceOrder[5].GetComponentInChildren<TextMeshPro>();
+        cubeFace6TextRotation = cubeFace6Text.transform.rotation;
     }
 
     private IEnumerator ResetRotationBool()
