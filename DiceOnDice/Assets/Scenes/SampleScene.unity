@@ -598,6 +598,7 @@ GameObject:
   - component: {fileID: 434895531}
   - component: {fileID: 434895530}
   - component: {fileID: 434895529}
+  - component: {fileID: 434895534}
   m_Layer: 8
   m_Name: Dice
   m_TagString: Untagged
@@ -705,7 +706,24 @@ MonoBehaviour:
   cubeFace4: {fileID: 799354386}
   cubeFace5: {fileID: 1867464420}
   cubeFace6: {fileID: 1545415170}
-  topFaceText: {fileID: 1084890141}
+--- !u!114 &434895534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 434895528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c3ed20becb5e87429411ed8fb8468e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  x: 0
+  y: 0
+  z: 0
+  smoothX: 0
+  smoothY: 0
+  smoothZ: 0
 --- !u!1 &469335154
 GameObject:
   m_ObjectHideFlags: 0

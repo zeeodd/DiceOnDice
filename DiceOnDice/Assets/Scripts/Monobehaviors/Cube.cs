@@ -92,6 +92,27 @@ public class Cube : MonoBehaviour
             cubeFace2Text.transform.rotation = cubeFace2TextRotation;
             cubeFace4Text.transform.rotation = cubeFace4TextRotation;
         }
+
+        if (!isRotating)
+        {
+            cubeFace1Text.transform.LookAt(transform.position);
+            cubeFace1Text.transform.Rotate(new Vector3(0f, 0f, 0f), 90f);
+
+            cubeFace2Text.transform.LookAt(transform.position);
+            cubeFace2Text.transform.Rotate(new Vector3(0f, 0f, 0f), 90f);
+
+            cubeFace3Text.transform.LookAt(transform.position);
+            cubeFace3Text.transform.Rotate(new Vector3(0f, 0f, 0f), 90f);
+
+            cubeFace4Text.transform.LookAt(transform.position);
+            cubeFace4Text.transform.Rotate(new Vector3(0f, 0f, 0f), 90f);
+
+            cubeFace5Text.transform.LookAt(transform.position);
+            cubeFace5Text.transform.Rotate(new Vector3(0f, 0f, 0f), 90f);
+
+            cubeFace6Text.transform.LookAt(transform.position);
+            cubeFace6Text.transform.Rotate(new Vector3(0f, 0f, 0f), 90f);
+        }
     }
 
     private void OnMouseEnter()
